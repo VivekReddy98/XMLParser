@@ -41,7 +41,7 @@ class userClass
 
 
 int main(){
-    userClass* me = new userClass("data/example.xml");
+    userClass* me = new userClass("../data/example.xml");
     me->Execute();
     delete me;
 }

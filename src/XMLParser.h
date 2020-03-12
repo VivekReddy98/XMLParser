@@ -10,7 +10,7 @@ namespace XML_P{
 }
 
 namespace XML_S {
-    struct States;
+    class States;
     class Controller;
     class Base;
     class Init;
@@ -27,10 +27,10 @@ namespace XML_S {
     to perform anything on the data.
 */
 class XML_P::XMLContext {
-  protected:
-    XML_S::Controller* fsm;
 
   public:
+    XML_S::Controller* fsm;
+
     virtual void startDocument() = 0;
     virtual void endDocument() = 0;
     virtual void startElement(std::string& path, std::string& localelement) = 0;
@@ -43,7 +43,8 @@ class XML_P::XMLContext {
     std::string pathXML;
 };
 
-struct XML_S::States{
+class XML_S::States{
+  public:
     Base* init;
     Base* openArrow;
     Base* declaration;
@@ -58,7 +59,7 @@ class XML_S::Controller{
     std::vector<std::string> currPath;
     XML_P::XMLContext *user;
     XML_S::Base *currState;
-    struct XML_S::States *stateInfo;
+    XML_S::States *stateInfo;
     std::string localEntityName;
 
     ~Controller();
