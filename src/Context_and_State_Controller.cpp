@@ -9,7 +9,7 @@ XML_S::Controller::Controller(XML_P::XMLContext* usr){
     this->stateInfo->openArrow = new XML_S::OpenArrow(this);
     // this->stateInfo->declaration = new XML_S::Declaration(this);
     // this->stateInfo->comment = new XML_S::Comment(this);
-    // this->stateInfo->cdata= new XML_S::Cdata(this);
+    this->stateInfo->cdata= new XML_S::Cdata(this);
     this->stateInfo->attribute = new XML_S::Attribute(this);
     this->stateInfo->entity = new XML_S::Entity(this);
     this->currState = this->stateInfo->init;
@@ -32,11 +32,11 @@ void XML_P::XMLContext::Execute(){
 
     if (!ifs)
     {
-    	std::cout << " Error opening input file" << std::endl ;
+    	std::cout << " Error opening input file " << std::endl ;
     	return ;
     }
 
-    char c = 'V';
+    char c;
     while(!ifs.eof()){
         ifs.get(c);
         std::cout << c << std::endl;
@@ -56,5 +56,5 @@ XML_S::Controller::~Controller(){
     delete this->stateInfo->cdata;
     delete this->stateInfo->attribute;
     delete this->stateInfo->entity;
-    delete this;
+    // delete this;
 }

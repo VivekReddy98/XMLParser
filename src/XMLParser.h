@@ -16,7 +16,6 @@ namespace XML_S {
     class Init;
     class OpenArrow;
     class Declaration;
-    class Comment;
     class Cdata;
     class Attribute;
     class Entity;
@@ -61,6 +60,7 @@ class XML_S::Controller{
     XML_S::Base *currState;
     XML_S::States *stateInfo;
     std::string localEntityName;
+    std::string stringBody;
 
     ~Controller();
     Controller(XML_P::XMLContext* usr);
@@ -76,7 +76,7 @@ class XML_S::Base {
 class XML_S::Init
     : public XML_S::Base
 {
-  public:
+public:
     XML_S::Controller* cntrl;
     Init(XML_S::Controller* controller);
     void ProcessCharacter(char inp);
@@ -86,6 +86,7 @@ class XML_S::OpenArrow
     : public XML_S::Base
 {
   public:
+    int inEndTag;
     XML_S::Controller* cntrl;
     OpenArrow(XML_S::Controller* controller);
     void ProcessCharacter(char inp);
@@ -104,6 +105,10 @@ class XML_S::Cdata
     : public XML_S::Base
 {
   public:
+    int inCDataHeader;
+    int inCDataFooter;
+    std::string localtext;
+    int inComment;
     XML_S::Controller* cntrl;
     Cdata(XML_S::Controller* controller);
     void ProcessCharacter(char inp);

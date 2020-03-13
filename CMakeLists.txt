@@ -11,6 +11,7 @@ set(CMAKE_CXX_FLAGS "-std=c++11")
 include_directories("src")
 
 add_executable(ParserEngine.exe "src/XMLParser.cpp"
-                                "src/State_Controller.cpp"
+                                "src/Context_and_State_Controller.cpp"
                                 "src/Init_State.cpp"
-                                "src/Entity_Attrib_States.cpp")
+                                "src/Entity_Attrib_States.cpp"
+                                "src/cdata.cpp")
