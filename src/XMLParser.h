@@ -5,6 +5,7 @@
 #include <regex.h>
 #include <fstream>      // std::ifstream
 
+// This Class has to be inherited b
 namespace XML_P{
     class XMLContext;
 }

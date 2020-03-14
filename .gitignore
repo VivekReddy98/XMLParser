@@ -35,4 +35,8 @@
 build/
 
 # Data
-data/standard.xml 
+data/standard.xml
+
+# odt
+.odt
+.odt#

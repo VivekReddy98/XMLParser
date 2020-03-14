@@ -6,11 +6,11 @@
 #include <fstream>      // std::ifstream
 #include "XMLParser.h"
 
-class userClass
+class userPrintClass
     : public XML_P::XMLContext
 {
   public:
-    userClass(std::string path)
+    userPrintClass(std::string path)
           : XML_P::XMLContext(path)
     { std::cout << "User class initialized" << std::endl; }
     void startDocument() {std::cout << "------------------Document Started !!! ---------------" << std::endl;}
@@ -19,7 +19,7 @@ class userClass
         std::cout << "startElement: => " << localelement << " Current Path: " << path << std::endl;
     }
     void elementAttributes(std::string& path, std::unordered_map<std::string, std::string>& attributes){
-        std::cout << "Attributes:   => Current Path: " << path << " Attributes: ";
+        std::cout << "              Attributes:  ";
         std::unordered_map<std::string, std::string>::iterator it = attributes.begin();
         while(it != attributes.end()) {
             std::cout<<it->first << " : "<< it->second << std::endl;
@@ -31,16 +31,18 @@ class userClass
         std::cout << "endElement:   => " << localelement << " Current Path: " << path << std::endl;
     }
     void characters(std::string& body){
-        std::cout << "Text Inside:  => " << body << std::endl;
+        std::cout << "              Text Inside:  => " << body << std::endl;
     }
 };
 
 
-int main(){
-    userClass* me = new userClass("../data/example.xml");
+int main(int argc, char **argv){
+    if (argc != 2) throw std::runtime_error("Number of Arguments must be specified are two: \
+                                            ./ParserEngine.exe {path to the xml file}");
+
+    std::string xmlpath(argv[1]);
+    userPrintClass* me = new userPrintClass(xmlpath);
     me->Execute();
     delete me;
-    std::string str = "Vivek";
-    str += " Reddy";
     return 1;
 }
