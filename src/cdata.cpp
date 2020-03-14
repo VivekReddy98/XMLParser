@@ -10,7 +10,7 @@ XML_S::Cdata::Cdata(XML_S::Controller* controller){
 }
 
 void XML_S::Cdata::ProcessCharacter(char inp){
-   if(inp == '-' ){
+   if(inp == '-'){
       this->inComment += 1;
    }
    else if (inp == '['){
@@ -29,6 +29,8 @@ void XML_S::Cdata::ProcessCharacter(char inp){
       this->cntrl->stringBody += this->localtext;
       this->cntrl->currState = this->cntrl->stateInfo->entity;
       this->localtext = "";
+      this->inCDataHeader = 0;
+      this->inCDataFooter = 0;
    }
    else {
       std::string inp_s(1, inp);

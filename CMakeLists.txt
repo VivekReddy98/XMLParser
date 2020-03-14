@@ -14,4 +14,6 @@ add_executable(ParserEngine.exe "src/XMLParser.cpp"
                                 "src/Context_and_State_Controller.cpp"
                                 "src/Init_State.cpp"
                                 "src/Entity_Attrib_States.cpp"
-                                "src/cdata.cpp")
+                                "src/cdata.cpp"
+                                "src/description.cpp"
+                                "src/EscapeHandler.cpp")

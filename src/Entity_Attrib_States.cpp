@@ -1,10 +1,22 @@
 #include "XMLParser.h"
 #include <regex>
 
+std::string ltrim(const std::string& s) {
+	return std::regex_replace(s, std::regex("^\\s+"), std::string(""));
+}
+
+std::string rtrim(const std::string& s) {
+	return std::regex_replace(s, std::regex("\\s+$"), std::string(""));
+}
+
+std::string trim(const std::string& s) {
+	return ltrim(rtrim(s));
+}
+
+
 XML_S::Entity::Entity(XML_S::Controller* controller){
    this->cntrl = controller;
    this->canCData = 0;
-   this->stringBody = "";
 }
 
 XML_S::Attribute::Attribute(XML_S::Controller* controller){
@@ -38,27 +50,34 @@ void XML_S::Attribute::ProcessCharacter(char inp){
       this->temp_key = "";
       this->temp_value = this->temp_key;
   }
+  else if (inp == '/'){
+      this->cntrl->currState = this->cntrl->stateInfo->openArrow;
+      this->cntrl->currState->ProcessCharacter(inp);
+  }
 }
 
 void XML_S::Entity::ProcessCharacter(char inp){
 
-  std::regex ignore ("[\r\t\f\v ]");
-  if (inp == '<' && !(this->cntrl->stringBody.empty())){
+  std::regex ignore ("^[\r\t\f\v\n ]+$");
+  if (inp == '<'){ //&& !std::regex_match (this->cntrl->stringBody, ignore)
       this->canCData = 1;
   }
   else if (inp != '!' && this->canCData == 1){
-      if (!(this->cntrl->stringBody.empty())) { // || !(std::regex_match (this->stringBody, ignore))){
-        // std::cout << "Compare: " << this->stringBody.length() << " " << this->stringBody << std::endl;
+      if (!std::regex_match (this->cntrl->stringBody, ignore)){ //!(this->cntrl->stringBody.empty())) { // || )){
+        // std::cout << "Compare:" << this->cntrl->stringBody << "Fuck You: " << std::endl;
+        this->cntrl->stringBody = trim(this->cntrl->stringBody);
         this->cntrl->user->characters(this->cntrl->stringBody);
-        this->cntrl->stringBody= "";
+        this->cntrl->stringBody = "";
       }
-
       this->canCData = 0;
       this->cntrl->currState = this->cntrl->stateInfo->openArrow;
       this->cntrl->currState->ProcessCharacter(inp);
   }
   else if (inp == '!' && this->canCData == 1){
       this->cntrl->currState = this->cntrl->stateInfo->cdata;
+  }
+  else if (inp == '&'){
+      this->cntrl->currState = this->cntrl->stateInfo->escapeHandle;
   }
   else {
       std::string inp_s(1, inp);

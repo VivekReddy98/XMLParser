@@ -15,10 +15,11 @@ namespace XML_S {
     class Base;
     class Init;
     class OpenArrow;
-    class Declaration;
     class Cdata;
     class Attribute;
     class Entity;
+    class Declaration;
+    class EscapeHandle;
 }
 
 /**
@@ -50,6 +51,7 @@ class XML_S::States{
     Base* cdata;
     Base* attribute;
     Base* entity;
+    Base* escapeHandle;
 };
 
 
@@ -73,8 +75,7 @@ class XML_S::Base {
 };
 
 
-class XML_S::Init
-    : public XML_S::Base
+class XML_S::Init : public XML_S::Base
 {
 public:
     XML_S::Controller* cntrl;
@@ -82,8 +83,7 @@ public:
     void ProcessCharacter(char inp);
 };
 
-class XML_S::OpenArrow
-    : public XML_S::Base
+class XML_S::OpenArrow : public XML_S::Base
 {
   public:
     int inEndTag;
@@ -92,48 +92,69 @@ class XML_S::OpenArrow
     void ProcessCharacter(char inp);
 };
 
-class XML_S::Declaration
-    : public XML_S::Base
+class XML_S::Declaration : public XML_S::Base
 {
+  private:
+    std::string body;
+    int inEnd;
+
   public:
     XML_S::Controller* cntrl;
     Declaration(XML_S::Controller* controller);
     void ProcessCharacter(char inp);
 };
 
-class XML_S::Cdata
-    : public XML_S::Base
+class XML_S::Cdata : public XML_S::Base
 {
-  public:
+  private:
     int inCDataHeader;
     int inCDataFooter;
     std::string localtext;
     int inComment;
+
+  public:
     XML_S::Controller* cntrl;
     Cdata(XML_S::Controller* controller);
     void ProcessCharacter(char inp);
 };
 
-class XML_S::Attribute
-    : public XML_S::Base
+class XML_S::Attribute : public XML_S::Base
 {
-  public:
+  private:
     std::string temp_key, temp_value;
     int inValue;
+
+  public:
     XML_S::Controller* cntrl;
     Attribute(XML_S::Controller* controller);
     void ProcessCharacter(char inp);
 };
 
-class XML_S::Entity
-    : public XML_S::Base
+class XML_S::Entity : public XML_S::Base
 {
-  public:
+  private:
     int canCData;
-    std::string stringBody;
+
+  public:
     XML_S::Controller* cntrl;
     Entity(XML_S::Controller* controller);
     void ProcessCharacter(char inp);
 };
 
+class XML_S::EscapeHandle : public XML_S::Base
+{
+  private:
+    std::string tempString;
+    std::unordered_map<std::string, std::string> specialCharMap;
+
+  public:
+    XML_S::Controller* cntrl;
+    EscapeHandle(XML_S::Controller* controller);
+    void ProcessCharacter(char inp);
+};
+
+// Utility Functions
 std::string vector2path(std::vector<std::string>& path);
+std::string ltrim(const std::string& s);
+std::string rtrim(const std::string& s);
+std::string trim(const std::string& s);

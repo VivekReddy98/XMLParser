@@ -52,21 +52,20 @@ void XML_S::OpenArrow::ProcessCharacter(char inp){
 
   }
   else if (inp == '>' && this->inEndTag == 1){
+      std::string popped_element = this->cntrl->currPath.back();
       this->cntrl->currPath.pop_back();
       std::string path = vector2path(this->cntrl->currPath);
       if (!this->cntrl->currPath.empty()){
-         this->cntrl->user->endElement(path, this->cntrl->currPath.back());
+         this->cntrl->user->endElement(path, popped_element);
       }
       this->cntrl->localEntityName = "";
       this->cntrl->currState = this->cntrl->stateInfo->entity;
       this->inEndTag = 0;
   }
   else if(inp == '/'){
-    this->inEndTag = 1;
-
-    // if (this->cntrl->currPath.empty()){
-    //     this->cntrl->currPath.push_back(this->cntrl->localEntityName);
-    // }
+     this->inEndTag = 1;
   }
-
+  else if (inp == '?'){
+     this->cntrl->currState = this->cntrl->stateInfo->declaration;
+  }
 }
