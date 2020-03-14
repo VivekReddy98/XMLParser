@@ -1,7 +1,4 @@
 #include "XMLParser.h"
-#include <fstream>
-#include <iostream>
-
 
 XML_S::Controller::Controller(XML_P::XMLContext* usr){
     this->user = usr;
@@ -20,36 +17,6 @@ XML_S::Controller::Controller(XML_P::XMLContext* usr){
 
 void XML_S::Controller::ProcessCharacter(char inp){
     this->currState->ProcessCharacter(inp);
-}
-
-XML_P::XMLContext::XMLContext(std::string path){
-    this->pathXML = path;
-    this->fsm = new XML_S::Controller(this);
-}
-
-void XML_P::XMLContext::Execute(){
-    std::ifstream ifs;
-    std::cout << this->pathXML << std::endl;
-    ifs.open(this->pathXML, std::ifstream::in);
-
-    if (!ifs)
-    {
-    	std::cout << " Error opening input file " << std::endl ;
-    	return ;
-    }
-
-    char c;
-    while(!ifs.eof()){
-        ifs.get(c);
-        // std::cout << c << std::endl;
-        this->fsm->currState->ProcessCharacter(c);
-    }
-    this->endDocument();
-    ifs.close();
-}
-
-XML_P::XMLContext::~XMLContext(){
-    delete fsm;
 }
 
 XML_S::Controller::~Controller(){

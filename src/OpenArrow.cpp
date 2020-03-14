@@ -5,26 +5,6 @@
 #include <regex>
 #include "XMLParser.h"
 
-std::string vector2path(std::vector<std::string>& pathVector){
-    std::string path = "/";
-    for (int i = 0; i < pathVector.size(); i++){
-        path += pathVector[i];
-        path += "/";
-    }
-    return path;
-}
-
-XML_S::Init::Init(XML_S::Controller* controller){
-     this->cntrl = controller;
-}
-
-void XML_S::Init::ProcessCharacter(char inp){
-    this->cntrl->user->startDocument();
-    if (inp == '<'){
-        this->cntrl->currState = this->cntrl->stateInfo->openArrow;
-    }
-}
-
 XML_S::OpenArrow::OpenArrow(XML_S::Controller* controller){
      this->cntrl = controller;
      this->inEndTag = 0;
