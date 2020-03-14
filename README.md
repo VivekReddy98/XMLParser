@@ -11,3 +11,6 @@ A simple XML parser (SAX Style) being written in C++
 ## Build Configurations
       
        cmake -D CMAKE_CXX_COMPILER="/usr/bin/g++" ../  
+
+## Class Diagram
+![Class Diagram](ClassDiagram.png)
