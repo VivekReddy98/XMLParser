@@ -16,20 +16,84 @@
 
 
 namespace XML_P{
+    /**
+        Class: XMLContext (Abstract Class)
+        Usage: User have to inherit this Class and implement his own versions of the
+               six virtual functionns can use these functions as Event Handlers,
+               to perform anything on the data.
+    */
     class XMLContext;
 }
 
 // All Possible States in the FSM.
 namespace XML_S {
+    /**
+        Class: XML_S::States
+        Usage: Just a Simple container having all possible states.
+    */
     class States;
+
+    /**
+        Class: XML_S::Controller
+        Usage: Has all the possible states accessed through this->stateInfo object.
+               It Passes off the job of processing the character to whatever state present
+               this->currState object.
+    */
     class Controller;
+
+    /**
+        Class: XML_S::Base
+        Usage: Interface to be inherited by all the states.
+               Every Child Class should implement ProcessCharacter method.
+    */
     class Base;
+
+    /**
+        Class: XML_S::Init
+        Usage: The Initial State of the Machine.
+    */
     class Init;
+
+    /**
+        Class: XML_S::OpenArrow
+        Usage: The current state resume to OpenArrow when the encountered input character in '<'
+               Roughly Handles invoking of startElement() and endElement() functions of the user class.
+    */
     class OpenArrow;
+
+    /**
+        Class: XML_S::Cdata
+        Usage: Handles CDATA sections and Comments,
+               Technically, handles the sequence '<!'
+    */
     class Cdata;
+
+    /**
+        Class: XML_S::Attribute
+        Usage: Handles the Attributes of the elements enclosed inside < and >
+               and invokes elementAttribute() method of the user class.
+               Eg: <order id="1111">
+    */
     class Attribute;
+
+    /**
+        Class: XML_S::Entity
+        Usage: Handles the text contained inside an element/tag.
+               Handles callinf characters() function of the user class.
+    */
     class Entity;
+
+    /**
+        Class: XML_S::Declaration
+        Usage: State changes to Declaration when the encountered input characters are '<?'
+               Eg: <?xml version="1.0" standalone="yes"?>
+    */
     class Declaration;
+
+    /**
+        Class: XML_S::EscapeHandle
+        Usage: Handles Escape Characters. Invoked when special characters are encountered in text.
+    */
     class EscapeHandle;
 }
 
@@ -41,14 +105,8 @@ std::string ltrim(const std::string& s);
 std::string rtrim(const std::string& s);
 std::string trim(const std::string& s);
 
-/**
-    Class: XMLContext (Abstract Class)
-    Usage: User have to inherit this Class and implement his own versions of the
-           six virtual functionns can use these functions as Event Handlers,
-           to perform anything on the data.
-*/
-class XML_P::XMLContext {
 
+class XML_P::XMLContext {
   public:
     XML_S::Controller* fsm;
 
@@ -64,10 +122,7 @@ class XML_P::XMLContext {
     std::string pathXML;
 };
 
-/**
-    Class: XML_S::States
-    Usage: Just a Simple container having all possible states.
-*/
+
 class XML_S::States{
   public:
     Base* init;
@@ -79,12 +134,7 @@ class XML_S::States{
     Base* escapeHandle;
 };
 
-/**
-    Class: XML_S::Controller
-    Usage: Has all the possible states accessed through this->stateInfo object.
-           It Passes off the job of processing the character to whatever state present
-           this->currState object.
-*/
+
 class XML_S::Controller{
   public:
     std::vector<std::string> currPath;
@@ -99,20 +149,12 @@ class XML_S::Controller{
     void ProcessCharacter(char inp);
 };
 
-/**
-    Class: XML_S::Base
-    Usage: Interface to be inherited by all the states.
-           Every Child Class should implement ProcessCharacter method.
-*/
 class XML_S::Base {
   public:
     virtual void ProcessCharacter(char inp) = 0;
 };
 
-/**
-    Class: XML_S::Init
-    Usage: The Initial State of the Machine.
-*/
+
 class XML_S::Init : public XML_S::Base
 {
 public:
@@ -121,11 +163,7 @@ public:
     void ProcessCharacter(char inp);
 };
 
-/**
-    Class: XML_S::OpenArrow
-    Usage: The current state resume to OpenArrow when the encountered input character in '<'
-           Roughly Handles invoking of startElement() and endElement() functions of the user class.
-*/
+
 class XML_S::OpenArrow : public XML_S::Base
 {
   public:
@@ -135,11 +173,6 @@ class XML_S::OpenArrow : public XML_S::Base
     void ProcessCharacter(char inp);
 };
 
-/**
-    Class: XML_S::Declaration
-    Usage: State changes to Declaration when the encountered input characters are '<?'
-           Eg: <?xml version="1.0" standalone="yes"?>
-*/
 class XML_S::Declaration : public XML_S::Base
 {
   private:
@@ -152,11 +185,7 @@ class XML_S::Declaration : public XML_S::Base
     void ProcessCharacter(char inp);
 };
 
-/**
-    Class: XML_S::Cdata
-    Usage: Handles CDATA sections and Comments,
-           Technically, handles the sequence '<!'
-*/
+
 class XML_S::Cdata : public XML_S::Base
 {
   private:
@@ -171,12 +200,6 @@ class XML_S::Cdata : public XML_S::Base
     void ProcessCharacter(char inp);
 };
 
-/**
-    Class: XML_S::Attribute
-    Usage: Handles the Attributes of the elements enclosed inside < and >
-           and invokes elementAttribute() method of the user class.
-           Eg: <order id="1111">
-*/
 class XML_S::Attribute : public XML_S::Base
 {
   private:
@@ -189,11 +212,6 @@ class XML_S::Attribute : public XML_S::Base
     void ProcessCharacter(char inp);
 };
 
-/**
-    Class: XML_S::Entity
-    Usage: Handles the text contained inside an element/tag.
-           Handles callinf characters() function of the user class.
-*/
 class XML_S::Entity : public XML_S::Base
 {
   private:
@@ -205,10 +223,6 @@ class XML_S::Entity : public XML_S::Base
     void ProcessCharacter(char inp);
 };
 
-/**
-    Class: XML_S::EscapeHandle
-    Usage: Handles Escape Characters. Invoked when special characters are encountered in text.
-*/
 class XML_S::EscapeHandle : public XML_S::Base
 {
   private:

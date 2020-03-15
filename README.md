@@ -9,12 +9,12 @@ A simple XML parser (SAX Style) being written in C++
 5) Run make to generate the executable.
 
 ## Build Configurations
-      
+
        cmake -D CMAKE_CXX_COMPILER="/usr/bin/g++" ../  
-       
+
 ## Program Execution:
-           
-       ./ParserEngine.exe {path to the xml file} 
+
+       ./ParserEngine.exe {path to the xml file}
 
 ## Class Diagram
 ![Class Diagram](ClassDiagram.png)
@@ -36,3 +36,4 @@ src/
 ├── MiscFunctions.cpp (MIscellaneous Functions)
 
 data/ (Test Data for the executable)
+```
