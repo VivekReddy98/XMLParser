@@ -43,14 +43,71 @@ class userPrintClass
     }
 };
 
+std::string getLastName(std::string localelement){
+    char delim = '/'; // our delimiter
+
+
+    std::istringstream ss(localelement);
+    std::string token;
+
+    std::vector<std::string> tokens;
+    while(std::getline(ss, token, delim)) {
+      tokens.push_back(token);
+    }
+    return tokens.back();
+}
+
+class userOrderClass
+      : public XML_P::XMLContext
+{
+public:
+  std::unordered_map<std::string, std::string> tempMap;
+  std::string latestElement;
+  userOrderClass(std::string path)
+        : XML_P::XMLContext(path)
+  { std::cout << "User class initialized" << std::endl; }
+  void startDocument() {std::cout << "------------------Document Started !!! ---------------" << std::endl;}
+  void endDocument() { std::cout << "--------------------Document Parsed !!! -----------------" << std::endl;}
+  void startElement(std::string& path, std::string& localelement){
+      this->latestElement = localelement;
+  }
+  void elementAttributes(std::string& path, std::unordered_map<std::string, std::string>& attributes){
+      std::string lastelem = getLastName(path);
+      if (lastelem == "order") this->tempMap = attributes;
+  }
+
+  void endElement(std::string& path, std::string& localelement){
+      this->latestElement = getLastName(path);
+  }
+  void characters(std::string& body){
+      int orderQuan;
+      std::size_t pos;
+      if (this->latestElement == "amount"){
+          orderQuan = stoi(body, &pos);
+          if (orderQuan > 100 && pos == body.size()){
+              std::cout << "Amount: " << orderQuan << " Order ID:  " << this->tempMap["id"] << std::endl;
+          }
+      }
+
+  }
+};
+
 
 int main(int argc, char **argv){
-    if (argc != 2) throw std::runtime_error("Number of Arguments must be specified are two: \
-                                            ./ParserEngine.exe {path to the xml file}");
+    if (argc < 2 || argc > 3) throw std::runtime_error("Number of Arguments must be specified are three or two: \
+                                            ./ParserEngine.exe {path to the xml file} {order(optional)}");
 
     std::string xmlpath(argv[1]);
-    userPrintClass* me = new userPrintClass(xmlpath);
-    me->Execute();
-    delete me;
+
+    if (argc == 3 && (strcmp(argv[2], "order") == 0)){
+      userOrderClass* me2 = new userOrderClass(xmlpath);
+      me2->Execute();
+      delete me2;
+    }
+    else{
+      userPrintClass* me = new userPrintClass(xmlpath);
+      me->Execute();
+      delete me;
+    }
     return 1;
 }

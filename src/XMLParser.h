@@ -4,7 +4,7 @@
  * Project:   A SAX (Simple API for XML) style and forward only XML Parser.
  * Design:    Heavily Inspired from Java SAX Parser.
               Basically a state machine, processing every character once.
- * Complexity: Linear in number of characters.
+ * Complexity:Linear in number of characters.
  **/
 
 #include <vector>
@@ -15,17 +15,19 @@
 #include <fstream>
 
 
-namespace XML_P{
+namespace XML_P {
     /**
         Class: XMLContext (Abstract Class)
         Usage: User have to inherit this Class and implement his own versions of the
-               six virtual functionns can use these functions as Event Handlers,
+               six virtual functions can use these functions as Event Handlers,
                to perform anything on the data.
     */
     class XMLContext;
 }
 
-// All Possible States in the FSM.
+/**
+    All Possible States in the FSM.
+*/
 namespace XML_S {
     /**
         Class: XML_S::States
@@ -79,7 +81,7 @@ namespace XML_S {
     /**
         Class: XML_S::Entity
         Usage: Handles the text contained inside an element/tag.
-               Handles callinf characters() function of the user class.
+               Handles call characters() function of the user class.
     */
     class Entity;
 
