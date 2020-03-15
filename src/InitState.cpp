@@ -1,3 +1,7 @@
+/**
+ * Author:    Vivek Reddy Karri
+ * Created:   March 2020.
+ **/
 #include "XMLParser.h"
 
 XML_S::Init::Init(XML_S::Controller* controller){

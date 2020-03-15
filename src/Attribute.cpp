@@ -1,3 +1,8 @@
+/**
+ * Author:    Vivek Reddy Karri
+ * Created:   March 2020.
+ **/
+
 #include "XMLParser.h"
 #include <regex>
 
@@ -7,9 +12,9 @@ XML_S::Attribute::Attribute(XML_S::Controller* controller){
 }
 
 void XML_S::Attribute::ProcessCharacter(char inp){
-  // std::cout << "State : Attribute" << std::endl;
-  std::regex attribName ("[a-z]|[A-Z]|[0-9]|_|-|[.]");
 
+  // Handles most of the cases encountered in while extracting attribute information from the Entity.
+  std::regex attribName ("[a-z]|[A-Z]|[0-9]|_|-|[.]");
   std::regex attribValue ("[a-z]|[A-Z]|[0-9]|_|-|[.][\r\t\f\v\n ]");
 
   std::string inp_s(1, inp);

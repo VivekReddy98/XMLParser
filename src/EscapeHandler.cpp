@@ -1,5 +1,10 @@
+/**
+ * Author:    Vivek Reddy Karri
+ * Created:   March 2020.
+ **/
 #include "XMLParser.h"
 
+// All the Special Characters are stored in a Hash Table.
 XML_S::EscapeHandle::EscapeHandle(XML_S::Controller* controller){
    this->cntrl = controller;
    this->specialCharMap = {

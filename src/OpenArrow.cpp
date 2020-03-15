@@ -1,3 +1,7 @@
+/**
+ * Author:    Vivek Reddy Karri
+ * Created:   March 2020.
+ **/
 #include <vector>
 #include <iostream>
 #include <string>
@@ -11,7 +15,7 @@ XML_S::OpenArrow::OpenArrow(XML_S::Controller* controller){
 }
 
 void XML_S::OpenArrow::ProcessCharacter(char inp){
-  // std::cout << "State : OpenARROW" << std::endl;
+
   std::regex entityName ("[a-z]|[A-Z]|[0-9]|_|-|[.]");
   std::regex endName ("[\r\t\f\v ]");
   std::string inp_s(1, inp);

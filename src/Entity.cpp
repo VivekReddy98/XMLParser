@@ -1,3 +1,7 @@
+/**
+ * Author:    Vivek Reddy Karri
+ * Created:   March 2020.
+ **/
 #include "XMLParser.h"
 #include <regex>
 
@@ -13,8 +17,7 @@ void XML_S::Entity::ProcessCharacter(char inp){
       this->canCData = 1;
   }
   else if (inp != '!' && this->canCData == 1){
-      if (!std::regex_match (this->cntrl->stringBody, ignore)){ //!(this->cntrl->stringBody.empty())) { // || )){
-        // std::cout << "Compare:" << this->cntrl->stringBody << "Fuck You: " << std::endl;
+      if (!std::regex_match (this->cntrl->stringBody, ignore)){ 
         this->cntrl->stringBody = trim(this->cntrl->stringBody);
         this->cntrl->user->characters(this->cntrl->stringBody);
         this->cntrl->stringBody = "";

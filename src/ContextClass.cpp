@@ -1,3 +1,7 @@
+/**
+ * Author:    Vivek Reddy Karri
+ * Created:   March 2020.
+ **/
 #include "XMLParser.h"
 #include <fstream>
 #include <iostream>
@@ -21,13 +25,16 @@ void XML_P::XMLContext::Execute(){
     char c;
     while(!ifs.eof()){
         ifs.get(c);
-        // std::cout << c << std::endl;
         this->fsm->currState->ProcessCharacter(c);
     }
     this->endDocument();
     ifs.close();
 }
 
+/**
+    Whener the user class goes out of scope this method is invoke and this inturn invokes the destructor of the
+    State Controller class.
+*/
 XML_P::XMLContext::~XMLContext(){
     delete fsm;
 }

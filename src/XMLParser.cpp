@@ -1,3 +1,7 @@
+/**
+ * Author:    Vivek Reddy Karri
+ * Created:   March 2020.
+ **/
 #include <vector>
 #include <iostream>
 #include <string>
@@ -6,6 +10,10 @@
 #include <fstream>      // std::ifstream
 #include "XMLParser.h"
 
+/**
+    Class: Example Class to demonstrate the usage.
+    Functionality: Just prints out whatever recieved from the controller
+ **/
 class userPrintClass
     : public XML_P::XMLContext
 {
