@@ -11,6 +11,28 @@ A simple XML parser (SAX Style) being written in C++
 ## Build Configurations
       
        cmake -D CMAKE_CXX_COMPILER="/usr/bin/g++" ../  
+       
+## Program Execution:
+           
+       ./ParserEngine.exe {path to the xml file} 
 
 ## Class Diagram
 ![Class Diagram](ClassDiagram.png)
+
+## Folder Structure:
+```
+src/
+├── XMLParser.h
+├── XMLParser.cpp (An Example class inherited from XMLContext)
+├── Attribute.cpp (State)
+├── Entity.cpp (State)
+├── OpenArrow.cpp (State)
+├── Cdata.cpp (State)
+├── Init.cpp (State)
+├── EscapeHandler.cpp (State)
+├── ContextClass.cpp (Class to be inherited by the user)
+├── StateController.cpp ((State Controller Class)
+├── Description.cpp (State)
+├── MiscFunctions.cpp (MIscellaneous Functions)
+
+data/ (Test Data for the executable)
