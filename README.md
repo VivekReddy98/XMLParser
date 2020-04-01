@@ -1,5 +1,5 @@
 # XMLParser
-A simple XML parser (SAX Style) being written in C++
+A SAX Style XML parser developed in C++
 
 ## Instructions to Build the project
 1) Assuming you are in the root folder of the project i.e. XMLParser/ and on a unix machine
